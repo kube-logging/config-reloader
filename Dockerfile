@@ -1,6 +1,7 @@
-FROM golang:1.19 as builder
+FROM golang:1.20.1 as builder
 
 WORKDIR /workspace
+
 # Copy the Go Modules manifests
 COPY go.mod go.mod
 COPY go.sum go.sum
@@ -20,6 +21,9 @@ RUN CGO_ENABLED=0 go build -a -o config-reloader main.go
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM gcr.io/distroless/static:latest
+
 WORKDIR /
+
 COPY --from=builder /workspace/config-reloader .
+
 ENTRYPOINT ["/config-reloader"]

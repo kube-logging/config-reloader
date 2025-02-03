@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -13,8 +12,8 @@ import (
 	"strconv"
 	"time"
 
-	fsnotify "github.com/fsnotify/fsnotify"
 	"github.com/banzaicloud/config-reloader/pkg/metrics"
+	fsnotify "github.com/fsnotify/fsnotify"
 )
 
 func New() (*ConfigReloader, error) {
@@ -236,7 +235,7 @@ func (cfg *ConfigReloader) unarchiveDir(path string) error {
 	// fmt.Println(path)
 	// kuberPath := path + "/..data"
 	// fmt.Println(kuberPath)
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		return err
 	}
